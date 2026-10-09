@@ -1,0 +1,20 @@
+# Locally regenerated inputs, environment and complete audit outputs
+/.venv/
+/data/
+/cache/
+/artifacts/
+/wheels/
+/tmp/
+/private/
+__pycache__/
+*.py[cod]
+*.zip
+*.trec*
+.DS_Store
+.env
+.env.*
+*.pem
+*.key
+credentials*
+library-*/
+*.metadata.json

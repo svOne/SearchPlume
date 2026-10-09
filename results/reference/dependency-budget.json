@@ -1,0 +1,10 @@
+{
+  "wheels": 56,
+  "download_bytes": 187954380,
+  "download_mib": 179.24726486206055,
+  "registry": "https://pypi.org/simple",
+  "artifacts": "https://files.pythonhosted.org",
+  "source_builds": false,
+  "model_bytes": 90868376,
+  "gate_mib": 600
+}

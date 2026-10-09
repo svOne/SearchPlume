@@ -1,0 +1,98 @@
+{
+  "experiment": "BGMOWL: what do embeddings add over keyword search on BEIR/SciFact?",
+  "protocol_version": 1,
+  "dataset": {
+    "url": "https://public.ukp.informatik.tu-darmstadt.de/thakur/BEIR/datasets/scifact.zip",
+    "archive_md5": "5f7d1de60b170fc8027bb7898e2efca1",
+    "expected_documents": 5183,
+    "expected_judged_test_queries": 300,
+    "text": "title + single space + text; strip outer whitespace",
+    "queries": "Retrieve every queries.jsonl query before opening test judgments; then select test query IDs for evaluation only.",
+    "document_order": "ascending string document ID",
+    "query_order": "ascending string query ID"
+  },
+  "bm25": {
+    "package": "bm25s==0.3.13",
+    "method": "lucene",
+    "idf_method": "lucene",
+    "k1": 1.5,
+    "b": 0.75,
+    "dtype": "float32",
+    "backend": "numpy",
+    "lowercase": true,
+    "token_pattern": "(?u)\\b\\w\\w+\\b",
+    "stopwords": "english (BM25S built-in list)",
+    "stemmer": null,
+    "description": "Single fixed lexical baseline; no stemming or parameter tuning."
+  },
+  "dense": {
+    "package": "sentence-transformers==3.4.1",
+    "model": "sentence-transformers/all-MiniLM-L6-v2",
+    "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+    "device": "cpu",
+    "trust_remote_code": false,
+    "max_seq_length": 256,
+    "dimensions": 384,
+    "batch_size": 16,
+    "normalize_embeddings": true,
+    "dtype": "float32",
+    "similarity": "exact dot product of normalized embeddings (cosine)",
+    "query_latency_batch_size": 1,
+    "prompts": "none"
+  },
+  "fusion": {
+    "method": "equal-weight reciprocal rank fusion",
+    "k": 60,
+    "depth": "all 5183 documents from each retriever",
+    "formula": "1 / (60 + rank_bm25) + 1 / (60 + rank_dense)",
+    "rank_origin": 1
+  },
+  "ranking": {
+    "output": "full corpus ranking for every available query, TREC TSV compressed with gzip",
+    "ties": "descending string document ID, matching pytrec_eval tie order",
+    "precision": "17 significant digits in TREC scores",
+    "exclude_identical_query_document_ids": false
+  },
+  "evaluation": {
+    "package": "beir==2.2.0",
+    "api": "EvaluateRetrieval.evaluate",
+    "metrics": ["NDCG@10", "Recall@100"],
+    "k_values": [10, 100],
+    "ignore_identical_ids": false,
+    "reason": "SciFact claim IDs and scientific document IDs are separate namespaces; string collisions do not mean self-retrieval.",
+    "controls": "synthetic perfect, miss, rank2, rank101, multi-relevance, graded relevance controls before real evaluation",
+    "aggregation": "official evaluator macro average rounded to five decimals; also store unrounded per-query values",
+    "no_tuning": "No parameter/model/seed/depth changes after test qrels are read. No train/dev judgments used."
+  },
+  "runtime": {
+    "python": "3.11.7",
+    "seed": 42,
+    "torch_threads": 1,
+    "torch_interop_threads": 1,
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1",
+    "TOKENIZERS_PARALLELISM": "false",
+    "MPS_GPU": "never used",
+    "timing": "perf_counter; one unjudged warmup; per-query serial timings include tokenization/encoding and exact score computation/ranking, exclude gzip output I/O; report BM25, dense, fusion-only and end-to-end hybrid",
+    "memory": "per-method fresh worker process ru_maxrss; parent bounded polling of RSS as extra evidence; macOS bytes converted to MiB",
+    "index_time": "BM25 tokenization + sparse index; dense corpus encoding + matrix construction; model load separately",
+    "truncation": "count original document/query token lengths using pinned tokenizer, including special tokens; record counts above 256"
+  },
+  "resource_gates": {
+    "wheel_download_limit_mib": 600,
+    "project_disk_limit_mib": 2000,
+    "pilot_documents": 128,
+    "pilot_queries": 8,
+    "pilot_peak_rss_limit_mib": 1500,
+    "pilot_elapsed_limit_seconds": 120,
+    "full_worker_elapsed_limit_seconds": 480,
+    "full_worker_peak_rss_limit_mib": 2000,
+    "pilot": "sorted first 128 documents and 8 available query texts; no qrels; stop if limits are exceeded"
+  },
+  "interpretation": {
+    "primary": "Within this fixed dataset/model/baseline only, compare official metrics, complementary relevant-document retrieval and operational cost.",
+    "exploratory": "Post-result paired query deltas, win/tie/loss counts and descriptive examples; no inferential/general advantage claim."
+  }
+}

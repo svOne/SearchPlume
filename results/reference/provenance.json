@@ -1,0 +1,31 @@
+{
+  "project": "SearchPlume",
+  "original_protocol_sha256": "3b67238210276599574456d6ec29670f980f40361cf52b1344ea7bc2b8289fc0",
+  "original_results_sha256": "15eb40a0a0731e74521f5eec2694a4dce394252ae92a398856be9298db39bb6d",
+  "original_ranked_output_sha256": {
+    "bm25": "fbb19d2284cc7a9e9048bf031894f575dddab651817decbbce2f3fcd8c4d1129",
+    "dense": "8b9d261832ec3f923a87098e3f9affb6fefc530d3e94a96a8a8810d077e55132",
+    "rrf": "aad5bfb0668622215091df2817b48e9ef7663c1b1e2fea5e79bbc75de3cd79e9"
+  },
+  "original_core_source_sha256": {
+    "worker.py": "b6a65aab85a23d97006cedef7e6a43c6ff8ac60266b6ad67e1af3fcd1583acdf",
+    "benchmark.py": "e537cd6b1f3383080a720e3b29daceb72fe4e1439e07e8c9558fbb8f85885a80",
+    "prepare.py": "2389b2d249fb9f3049e1454996b212d959d5c65d67e377e763c97dd01e0d715c",
+    "freeze.py": "6d78d48a20edd2738503bb6e850642fb476c13bd5ae294af27c7df0aef29f4bd",
+    "metric_controls.py": "dad6993b59b74fa025dd8e8d8bbd4c3083759a0c43e1a0cd78ed7895a95d9a4f"
+  },
+  "released_core_source_sha256": {
+    "worker.py": "b6a65aab85a23d97006cedef7e6a43c6ff8ac60266b6ad67e1af3fcd1583acdf",
+    "benchmark.py": "e537cd6b1f3383080a720e3b29daceb72fe4e1439e07e8c9558fbb8f85885a80",
+    "prepare.py": "2389b2d249fb9f3049e1454996b212d959d5c65d67e377e763c97dd01e0d715c",
+    "freeze.py": "6d78d48a20edd2738503bb6e850642fb476c13bd5ae294af27c7df0aef29f4bd",
+    "metric_controls.py": "dad6993b59b74fa025dd8e8d8bbd4c3083759a0c43e1a0cd78ed7895a95d9a4f"
+  },
+  "public_redactions": [
+    "costs.dense.native_threadpools[0].filepath",
+    "costs.dense.native_threadpools[1].filepath"
+  ],
+  "redaction_scope": "Two native-library absolute host paths reduced to filenames; no scores, metrics, timings, parameters or output hashes changed.",
+  "historical_evidence": "results/reference records the original validated run; a new reproduction writes artifacts/ with new timestamps.",
+  "release_validation": "Distribution checks and synthetic controls; full retrieval was run in the original environment, not rerun for rebranding."
+}

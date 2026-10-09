@@ -1,0 +1,20 @@
+{
+  "bm25": {
+    "rows": 5747947,
+    "queries": 1109,
+    "documents_per_query": 5183,
+    "sha256": "fbb19d2284cc7a9e9048bf031894f575dddab651817decbbce2f3fcd8c4d1129"
+  },
+  "dense": {
+    "rows": 5747947,
+    "queries": 1109,
+    "documents_per_query": 5183,
+    "sha256": "8b9d261832ec3f923a87098e3f9affb6fefc530d3e94a96a8a8810d077e55132"
+  },
+  "rrf": {
+    "rows": 5747947,
+    "queries": 1109,
+    "documents_per_query": 5183,
+    "sha256": "aad5bfb0668622215091df2817b48e9ef7663c1b1e2fea5e79bbc75de3cd79e9"
+  }
+}

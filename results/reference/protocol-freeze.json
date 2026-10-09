@@ -1,0 +1,7 @@
+{
+  "utc": "2026-10-09T10:49:47.515402+00:00",
+  "sha256": "3b67238210276599574456d6ec29670f980f40361cf52b1344ea7bc2b8289fc0",
+  "path": "protocol.json",
+  "test_judgments_read": false,
+  "note": "Created before dataset download; retrieval and fusion decisions are fixed."
+}

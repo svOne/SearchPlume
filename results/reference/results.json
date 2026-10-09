@@ -1,0 +1,263 @@
+{
+  "dataset": {
+    "documents": 5183,
+    "judged_queries": 300,
+    "all_queries_ranked": 1109,
+    "qrels_rows": 339,
+    "positive_judgments": 339,
+    "query_document_string_id_collisions": 0
+  },
+  "metrics": {
+    "bm25": {
+      "NDCG@10": 0.66169,
+      "Recall@100": 0.87589
+    },
+    "dense": {
+      "NDCG@10": 0.64508,
+      "Recall@100": 0.925
+    },
+    "rrf": {
+      "NDCG@10": 0.69188,
+      "Recall@100": 0.955
+    }
+  },
+  "paired_vs_bm25": {
+    "dense": {
+      "ndcg_cut_10": {
+        "unrounded_mean_delta": -0.01660973638858763,
+        "wins": 67,
+        "ties": 160,
+        "losses": 73
+      },
+      "recall_100": {
+        "unrounded_mean_delta": 0.04911111111111111,
+        "wins": 29,
+        "ties": 260,
+        "losses": 11
+      }
+    },
+    "rrf": {
+      "ndcg_cut_10": {
+        "unrounded_mean_delta": 0.030189953652781244,
+        "wins": 67,
+        "ties": 198,
+        "losses": 35
+      },
+      "recall_100": {
+        "unrounded_mean_delta": 0.07911111111111112,
+        "wins": 27,
+        "ties": 273,
+        "losses": 0
+      }
+    }
+  },
+  "relevant_pair_complementarity": {
+    "10": {
+      "bm25_only": 30,
+      "dense_only": 37,
+      "both": 228,
+      "neither": 44,
+      "judged_relevant_pairs": 339
+    },
+    "100": {
+      "bm25_only": 11,
+      "dense_only": 29,
+      "both": 287,
+      "neither": 12,
+      "judged_relevant_pairs": 339
+    }
+  },
+  "costs": {
+    "bm25": {
+      "method": "bm25",
+      "pilot": false,
+      "documents": 5183,
+      "queries": 1109,
+      "device": "cpu",
+      "threads": 1,
+      "protocol_sha256": "3b67238210276599574456d6ec29670f980f40361cf52b1344ea7bc2b8289fc0",
+      "index_seconds": 0.482415292004589,
+      "index_nonzero_entries": 533645,
+      "stopwords_sha256": "a6051906a6dd4d7451588ddeb537e7086b4ccfe58edc8653af84670a2aa8d47b",
+      "query_latency_seconds": {
+        "count": 1109,
+        "mean": 0.0002848597195560433,
+        "median": 0.0002818339999066666,
+        "p95": 0.0004180915988399647,
+        "min": 8.250000246334821e-05,
+        "max": 0.0006711250025546178
+      },
+      "native_threadpools": [],
+      "worker_wall_seconds": 6.509626375001972,
+      "peak_rss_mib": 112.203125,
+      "score_ties_beyond_first": 4137287,
+      "parent_sampled_peak_rss_mib": 127.3125,
+      "process_tree_sampling_available": true,
+      "sampling_scope": "worker and descendants",
+      "parent_observed_seconds": 6.775958666003135,
+      "judged_query_latency_seconds": {
+        "count": 300,
+        "mean": 0.00028550892013299743,
+        "median": 0.00028654200286837295,
+        "p95": 0.000413060401842813,
+        "min": 0.00010262499563395977,
+        "max": 0.0005155839971848764
+      }
+    },
+    "dense": {
+      "method": "dense",
+      "pilot": false,
+      "documents": 5183,
+      "queries": 1109,
+      "device": "cpu",
+      "threads": 1,
+      "protocol_sha256": "3b67238210276599574456d6ec29670f980f40361cf52b1344ea7bc2b8289fc0",
+      "model_load_seconds": 0.09164662500552367,
+      "torch_threads": 1,
+      "torch_interop_threads": 1,
+      "max_seq_length": 256,
+      "truncation": {
+        "documents": {
+          "tokens": {
+            "count": 5183,
+            "mean": 337.1944819602547,
+            "median": 316.0,
+            "p95": 567.8999999999996,
+            "min": 70.0,
+            "max": 1939.0
+          },
+          "truncated_count": 3681,
+          "truncated_fraction": 0.710206444144318
+        },
+        "queries": {
+          "tokens": {
+            "count": 1109,
+            "mean": 22.441839495040576,
+            "median": 21.0,
+            "p95": 38.0,
+            "min": 7.0,
+            "max": 79.0
+          },
+          "truncated_count": 0,
+          "truncated_fraction": 0.0
+        }
+      },
+      "index_seconds": 159.99936312500358,
+      "embedding_shape": [
+        5183,
+        384
+      ],
+      "embedding_bytes": 7961088,
+      "query_latency_seconds": {
+        "count": 1109,
+        "mean": 0.007124154562703147,
+        "median": 0.006975666001380887,
+        "p95": 0.008431099999870639,
+        "min": 0.0056825409992598,
+        "max": 0.012110332994780038
+      },
+      "native_threadpools": [
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 1,
+          "prefix": "libomp",
+          "filepath": "libomp.dylib",
+          "version": null
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 1,
+          "prefix": "libomp",
+          "filepath": "libomp.dylib",
+          "version": null
+        }
+      ],
+      "worker_wall_seconds": 182.25383212499582,
+      "peak_rss_mib": 710.671875,
+      "score_ties_beyond_first": 441,
+      "parent_sampled_peak_rss_mib": 726.1875,
+      "process_tree_sampling_available": true,
+      "sampling_scope": "worker and descendants",
+      "parent_observed_seconds": 183.08611891599867,
+      "judged_query_latency_seconds": {
+        "count": 300,
+        "mean": 0.0071796194500833126,
+        "median": 0.006981020498642465,
+        "p95": 0.00852829825162189,
+        "min": 0.0056825409992598,
+        "max": 0.012110332994780038
+      }
+    },
+    "rrf": {
+      "method": "rrf",
+      "pilot": false,
+      "documents": 5183,
+      "queries": 1109,
+      "device": "cpu",
+      "threads": 1,
+      "protocol_sha256": "3b67238210276599574456d6ec29670f980f40361cf52b1344ea7bc2b8289fc0",
+      "index_seconds": 0.0,
+      "query_latency_seconds": {
+        "count": 1109,
+        "mean": 0.0012318652787076697,
+        "median": 0.0011991669962299056,
+        "p95": 0.0014215830029570495,
+        "min": 0.0010858750029001385,
+        "max": 0.0031458340017707087
+      },
+      "query_latency_note": "Fusion computation/ranking only; base ranking file parsing excluded.",
+      "native_threadpools": [],
+      "worker_wall_seconds": 22.66821708399948,
+      "peak_rss_mib": 50.96875,
+      "score_ties_beyond_first": 844,
+      "parent_sampled_peak_rss_mib": 48.21875,
+      "process_tree_sampling_available": true,
+      "sampling_scope": "worker and descendants",
+      "parent_observed_seconds": 22.944034790998558,
+      "judged_query_latency_seconds": {
+        "count": 300,
+        "mean": 0.0012354433330619941,
+        "median": 0.0012011245016765315,
+        "p95": 0.001425002398173092,
+        "min": 0.0010864159994525835,
+        "max": 0.0022899999967194162
+      }
+    },
+    "hybrid": {
+      "judged_query_latency_seconds": {
+        "count": 300,
+        "mean": 0.008700571703278304,
+        "median": 0.008490458498272346,
+        "p95": 0.01012490560860897,
+        "min": 0.007141417001548689,
+        "max": 0.013841166990459897
+      },
+      "note": "Sum of serial measured components for each query; not an independently timed combined service."
+    }
+  },
+  "validation": {
+    "bm25": {
+      "rows": 5747947,
+      "queries": 1109,
+      "documents_per_query": 5183,
+      "sha256": "fbb19d2284cc7a9e9048bf031894f575dddab651817decbbce2f3fcd8c4d1129"
+    },
+    "dense": {
+      "rows": 5747947,
+      "queries": 1109,
+      "documents_per_query": 5183,
+      "sha256": "8b9d261832ec3f923a87098e3f9affb6fefc530d3e94a96a8a8810d077e55132"
+    },
+    "rrf": {
+      "rows": 5747947,
+      "queries": 1109,
+      "documents_per_query": 5183,
+      "sha256": "aad5bfb0668622215091df2817b48e9ef7663c1b1e2fea5e79bbc75de3cd79e9"
+    }
+  },
+  "controls_passed": true,
+  "protocol_sha256": "3b67238210276599574456d6ec29670f980f40361cf52b1344ea7bc2b8289fc0",
+  "utc": "2026-10-09T11:08:08.756742+00:00"
+}

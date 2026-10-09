@@ -1,0 +1,702 @@
+{
+  "passed": true,
+  "scope": "Synthetic official-evaluator controls only; no SciFact data or judgments were opened.",
+  "official_evaluator": "beir.retrieval.evaluation.EvaluateRetrieval.evaluate",
+  "ignore_identical_ids": false,
+  "k_values": [
+    10,
+    100
+  ],
+  "dependency_versions": {
+    "beir": "2.2.0",
+    "pytrec-eval-terrier": "0.5.10"
+  },
+  "evaluator_source_sha256": "f346bd20f258e552895e438257e3cc91308b65e0b1ee6c09422e987084bc3bd0",
+  "rounding": "BEIR aggregate outputs are rounded to 5 decimal places.",
+  "graded_gain_convention": "linear relevance gain; discount 1/log2(rank+1)",
+  "graded_gain_sources": [
+    "https://github.com/terrierteam/pytrec_eval/blob/v0.5.10/setup.py",
+    "https://github.com/usnistgov/trec_eval/blob/v9.0.8/m_ndcg_cut.c"
+  ],
+  "metric_cases": [
+    {
+      "name": "perfect_including_equal_query_document_id",
+      "passed": true,
+      "explanation": "One relevant document at rank 1; identical IDs must not be removed.",
+      "qrels": {
+        "same-id": {
+          "same-id": 1
+        }
+      },
+      "results": {
+        "same-id": {
+          "same-id": 1.0
+        }
+      },
+      "expected_exact": {
+        "NDCG@10": 1.0,
+        "Recall@100": 1.0
+      },
+      "expected_beir_rounded_5dp": {
+        "NDCG@10": 1.0,
+        "Recall@100": 1.0
+      },
+      "observed": {
+        "NDCG@10": 1.0,
+        "Recall@100": 1.0
+      },
+      "official_all_metrics": {
+        "ndcg": {
+          "NDCG@10": 1.0,
+          "NDCG@100": 1.0
+        },
+        "map": {
+          "MAP@10": 1.0,
+          "MAP@100": 1.0
+        },
+        "recall": {
+          "Recall@10": 1.0,
+          "Recall@100": 1.0
+        },
+        "precision": {
+          "P@10": 0.1,
+          "P@100": 0.01
+        }
+      }
+    },
+    {
+      "name": "complete_miss",
+      "passed": true,
+      "explanation": "An unjudged retrieved document does not count as relevant.",
+      "qrels": {
+        "q-miss": {
+          "relevant": 1,
+          "judged-nonrelevant": 0
+        }
+      },
+      "results": {
+        "q-miss": {
+          "unjudged-document": 1.0
+        }
+      },
+      "expected_exact": {
+        "NDCG@10": 0.0,
+        "Recall@100": 0.0
+      },
+      "expected_beir_rounded_5dp": {
+        "NDCG@10": 0.0,
+        "Recall@100": 0.0
+      },
+      "observed": {
+        "NDCG@10": 0.0,
+        "Recall@100": 0.0
+      },
+      "official_all_metrics": {
+        "ndcg": {
+          "NDCG@10": 0.0,
+          "NDCG@100": 0.0
+        },
+        "map": {
+          "MAP@10": 0.0,
+          "MAP@100": 0.0
+        },
+        "recall": {
+          "Recall@10": 0.0,
+          "Recall@100": 0.0
+        },
+        "precision": {
+          "P@10": 0.0,
+          "P@100": 0.0
+        }
+      }
+    },
+    {
+      "name": "single_relevant_at_rank_2",
+      "passed": true,
+      "explanation": "nDCG@10 = 1/log2(3), while the document is within Recall@100.",
+      "qrels": {
+        "q-rank2": {
+          "relevant": 1
+        }
+      },
+      "results": {
+        "q-rank2": {
+          "nonrelevant": 2.0,
+          "relevant": 1.0
+        }
+      },
+      "expected_exact": {
+        "NDCG@10": 0.6309297535714575,
+        "Recall@100": 1.0
+      },
+      "expected_beir_rounded_5dp": {
+        "NDCG@10": 0.63093,
+        "Recall@100": 1.0
+      },
+      "observed": {
+        "NDCG@10": 0.63093,
+        "Recall@100": 1.0
+      },
+      "official_all_metrics": {
+        "ndcg": {
+          "NDCG@10": 0.63093,
+          "NDCG@100": 0.63093
+        },
+        "map": {
+          "MAP@10": 0.5,
+          "MAP@100": 0.5
+        },
+        "recall": {
+          "Recall@10": 1.0,
+          "Recall@100": 1.0
+        },
+        "precision": {
+          "P@10": 0.1,
+          "P@100": 0.01
+        }
+      }
+    },
+    {
+      "name": "single_relevant_at_rank_100",
+      "passed": true,
+      "explanation": "Rank 100 is included by Recall@100 and excluded by nDCG@10.",
+      "qrels": {
+        "q-rank100": {
+          "relevant": 1
+        }
+      },
+      "results": {
+        "q-rank100": {
+          "filler-000": 100.0,
+          "filler-001": 99.0,
+          "filler-002": 98.0,
+          "filler-003": 97.0,
+          "filler-004": 96.0,
+          "filler-005": 95.0,
+          "filler-006": 94.0,
+          "filler-007": 93.0,
+          "filler-008": 92.0,
+          "filler-009": 91.0,
+          "filler-010": 90.0,
+          "filler-011": 89.0,
+          "filler-012": 88.0,
+          "filler-013": 87.0,
+          "filler-014": 86.0,
+          "filler-015": 85.0,
+          "filler-016": 84.0,
+          "filler-017": 83.0,
+          "filler-018": 82.0,
+          "filler-019": 81.0,
+          "filler-020": 80.0,
+          "filler-021": 79.0,
+          "filler-022": 78.0,
+          "filler-023": 77.0,
+          "filler-024": 76.0,
+          "filler-025": 75.0,
+          "filler-026": 74.0,
+          "filler-027": 73.0,
+          "filler-028": 72.0,
+          "filler-029": 71.0,
+          "filler-030": 70.0,
+          "filler-031": 69.0,
+          "filler-032": 68.0,
+          "filler-033": 67.0,
+          "filler-034": 66.0,
+          "filler-035": 65.0,
+          "filler-036": 64.0,
+          "filler-037": 63.0,
+          "filler-038": 62.0,
+          "filler-039": 61.0,
+          "filler-040": 60.0,
+          "filler-041": 59.0,
+          "filler-042": 58.0,
+          "filler-043": 57.0,
+          "filler-044": 56.0,
+          "filler-045": 55.0,
+          "filler-046": 54.0,
+          "filler-047": 53.0,
+          "filler-048": 52.0,
+          "filler-049": 51.0,
+          "filler-050": 50.0,
+          "filler-051": 49.0,
+          "filler-052": 48.0,
+          "filler-053": 47.0,
+          "filler-054": 46.0,
+          "filler-055": 45.0,
+          "filler-056": 44.0,
+          "filler-057": 43.0,
+          "filler-058": 42.0,
+          "filler-059": 41.0,
+          "filler-060": 40.0,
+          "filler-061": 39.0,
+          "filler-062": 38.0,
+          "filler-063": 37.0,
+          "filler-064": 36.0,
+          "filler-065": 35.0,
+          "filler-066": 34.0,
+          "filler-067": 33.0,
+          "filler-068": 32.0,
+          "filler-069": 31.0,
+          "filler-070": 30.0,
+          "filler-071": 29.0,
+          "filler-072": 28.0,
+          "filler-073": 27.0,
+          "filler-074": 26.0,
+          "filler-075": 25.0,
+          "filler-076": 24.0,
+          "filler-077": 23.0,
+          "filler-078": 22.0,
+          "filler-079": 21.0,
+          "filler-080": 20.0,
+          "filler-081": 19.0,
+          "filler-082": 18.0,
+          "filler-083": 17.0,
+          "filler-084": 16.0,
+          "filler-085": 15.0,
+          "filler-086": 14.0,
+          "filler-087": 13.0,
+          "filler-088": 12.0,
+          "filler-089": 11.0,
+          "filler-090": 10.0,
+          "filler-091": 9.0,
+          "filler-092": 8.0,
+          "filler-093": 7.0,
+          "filler-094": 6.0,
+          "filler-095": 5.0,
+          "filler-096": 4.0,
+          "filler-097": 3.0,
+          "filler-098": 2.0,
+          "relevant": 1.0
+        }
+      },
+      "expected_exact": {
+        "NDCG@10": 0.0,
+        "Recall@100": 1.0
+      },
+      "expected_beir_rounded_5dp": {
+        "NDCG@10": 0.0,
+        "Recall@100": 1.0
+      },
+      "observed": {
+        "NDCG@10": 0.0,
+        "Recall@100": 1.0
+      },
+      "official_all_metrics": {
+        "ndcg": {
+          "NDCG@10": 0.0,
+          "NDCG@100": 0.15019
+        },
+        "map": {
+          "MAP@10": 0.0,
+          "MAP@100": 0.01
+        },
+        "recall": {
+          "Recall@10": 0.0,
+          "Recall@100": 1.0
+        },
+        "precision": {
+          "P@10": 0.0,
+          "P@100": 0.01
+        }
+      }
+    },
+    {
+      "name": "single_relevant_at_rank_101",
+      "passed": true,
+      "explanation": "Rank 101 is outside both requested cutoffs.",
+      "qrels": {
+        "q-rank101": {
+          "relevant": 1
+        }
+      },
+      "results": {
+        "q-rank101": {
+          "filler-000": 101.0,
+          "filler-001": 100.0,
+          "filler-002": 99.0,
+          "filler-003": 98.0,
+          "filler-004": 97.0,
+          "filler-005": 96.0,
+          "filler-006": 95.0,
+          "filler-007": 94.0,
+          "filler-008": 93.0,
+          "filler-009": 92.0,
+          "filler-010": 91.0,
+          "filler-011": 90.0,
+          "filler-012": 89.0,
+          "filler-013": 88.0,
+          "filler-014": 87.0,
+          "filler-015": 86.0,
+          "filler-016": 85.0,
+          "filler-017": 84.0,
+          "filler-018": 83.0,
+          "filler-019": 82.0,
+          "filler-020": 81.0,
+          "filler-021": 80.0,
+          "filler-022": 79.0,
+          "filler-023": 78.0,
+          "filler-024": 77.0,
+          "filler-025": 76.0,
+          "filler-026": 75.0,
+          "filler-027": 74.0,
+          "filler-028": 73.0,
+          "filler-029": 72.0,
+          "filler-030": 71.0,
+          "filler-031": 70.0,
+          "filler-032": 69.0,
+          "filler-033": 68.0,
+          "filler-034": 67.0,
+          "filler-035": 66.0,
+          "filler-036": 65.0,
+          "filler-037": 64.0,
+          "filler-038": 63.0,
+          "filler-039": 62.0,
+          "filler-040": 61.0,
+          "filler-041": 60.0,
+          "filler-042": 59.0,
+          "filler-043": 58.0,
+          "filler-044": 57.0,
+          "filler-045": 56.0,
+          "filler-046": 55.0,
+          "filler-047": 54.0,
+          "filler-048": 53.0,
+          "filler-049": 52.0,
+          "filler-050": 51.0,
+          "filler-051": 50.0,
+          "filler-052": 49.0,
+          "filler-053": 48.0,
+          "filler-054": 47.0,
+          "filler-055": 46.0,
+          "filler-056": 45.0,
+          "filler-057": 44.0,
+          "filler-058": 43.0,
+          "filler-059": 42.0,
+          "filler-060": 41.0,
+          "filler-061": 40.0,
+          "filler-062": 39.0,
+          "filler-063": 38.0,
+          "filler-064": 37.0,
+          "filler-065": 36.0,
+          "filler-066": 35.0,
+          "filler-067": 34.0,
+          "filler-068": 33.0,
+          "filler-069": 32.0,
+          "filler-070": 31.0,
+          "filler-071": 30.0,
+          "filler-072": 29.0,
+          "filler-073": 28.0,
+          "filler-074": 27.0,
+          "filler-075": 26.0,
+          "filler-076": 25.0,
+          "filler-077": 24.0,
+          "filler-078": 23.0,
+          "filler-079": 22.0,
+          "filler-080": 21.0,
+          "filler-081": 20.0,
+          "filler-082": 19.0,
+          "filler-083": 18.0,
+          "filler-084": 17.0,
+          "filler-085": 16.0,
+          "filler-086": 15.0,
+          "filler-087": 14.0,
+          "filler-088": 13.0,
+          "filler-089": 12.0,
+          "filler-090": 11.0,
+          "filler-091": 10.0,
+          "filler-092": 9.0,
+          "filler-093": 8.0,
+          "filler-094": 7.0,
+          "filler-095": 6.0,
+          "filler-096": 5.0,
+          "filler-097": 4.0,
+          "filler-098": 3.0,
+          "filler-099": 2.0,
+          "relevant": 1.0
+        }
+      },
+      "expected_exact": {
+        "NDCG@10": 0.0,
+        "Recall@100": 0.0
+      },
+      "expected_beir_rounded_5dp": {
+        "NDCG@10": 0.0,
+        "Recall@100": 0.0
+      },
+      "observed": {
+        "NDCG@10": 0.0,
+        "Recall@100": 0.0
+      },
+      "official_all_metrics": {
+        "ndcg": {
+          "NDCG@10": 0.0,
+          "NDCG@100": 0.0
+        },
+        "map": {
+          "MAP@10": 0.0,
+          "MAP@100": 0.0
+        },
+        "recall": {
+          "Recall@10": 0.0,
+          "Recall@100": 0.0
+        },
+        "precision": {
+          "P@10": 0.0,
+          "P@100": 0.0
+        }
+      }
+    },
+    {
+      "name": "multiple_relevant_recall_denominator",
+      "passed": true,
+      "explanation": "Recall denominator includes all three positive judgments, including the missing document.",
+      "qrels": {
+        "q-multi": {
+          "relevant-a": 1,
+          "relevant-b": 1,
+          "relevant-c": 1,
+          "zero": 0
+        }
+      },
+      "results": {
+        "q-multi": {
+          "relevant-a": 2.0,
+          "relevant-b": 1.0
+        }
+      },
+      "expected_exact": {
+        "NDCG@10": 0.7653606369886217,
+        "Recall@100": 0.6666666666666666
+      },
+      "expected_beir_rounded_5dp": {
+        "NDCG@10": 0.76536,
+        "Recall@100": 0.66667
+      },
+      "observed": {
+        "NDCG@10": 0.76536,
+        "Recall@100": 0.66667
+      },
+      "official_all_metrics": {
+        "ndcg": {
+          "NDCG@10": 0.76536,
+          "NDCG@100": 0.76536
+        },
+        "map": {
+          "MAP@10": 0.66667,
+          "MAP@100": 0.66667
+        },
+        "recall": {
+          "Recall@10": 0.66667,
+          "Recall@100": 0.66667
+        },
+        "precision": {
+          "P@10": 0.2,
+          "P@100": 0.02
+        }
+      }
+    },
+    {
+      "name": "query_macro_average",
+      "passed": true,
+      "explanation": "Official aggregation weights the two evaluated queries equally.",
+      "qrels": {
+        "q-perfect": {
+          "a": 1
+        },
+        "q-miss": {
+          "b": 1,
+          "c": 1,
+          "d": 1
+        }
+      },
+      "results": {
+        "q-perfect": {
+          "a": 1.0
+        },
+        "q-miss": {
+          "unjudged": 1.0
+        }
+      },
+      "expected_exact": {
+        "NDCG@10": 0.5,
+        "Recall@100": 0.5
+      },
+      "expected_beir_rounded_5dp": {
+        "NDCG@10": 0.5,
+        "Recall@100": 0.5
+      },
+      "observed": {
+        "NDCG@10": 0.5,
+        "Recall@100": 0.5
+      },
+      "official_all_metrics": {
+        "ndcg": {
+          "NDCG@10": 0.5,
+          "NDCG@100": 0.5
+        },
+        "map": {
+          "MAP@10": 0.5,
+          "MAP@100": 0.5
+        },
+        "recall": {
+          "Recall@10": 0.5,
+          "Recall@100": 0.5
+        },
+        "precision": {
+          "P@10": 0.05,
+          "P@100": 0.005
+        }
+      }
+    },
+    {
+      "name": "graded_linear_gain_reversed_ranking",
+      "passed": true,
+      "explanation": "trec_eval ndcg_cut uses linear gains 3 and 1, rather than 2**rel-1.",
+      "qrels": {
+        "q-graded": {
+          "grade-3": 3,
+          "grade-1": 1
+        }
+      },
+      "results": {
+        "q-graded": {
+          "grade-1": 2.0,
+          "grade-3": 1.0
+        }
+      },
+      "expected_exact": {
+        "NDCG@10": 0.7967075809905066,
+        "Recall@100": 1.0
+      },
+      "expected_beir_rounded_5dp": {
+        "NDCG@10": 0.79671,
+        "Recall@100": 1.0
+      },
+      "observed": {
+        "NDCG@10": 0.79671,
+        "Recall@100": 1.0
+      },
+      "official_all_metrics": {
+        "ndcg": {
+          "NDCG@10": 0.79671,
+          "NDCG@100": 0.79671
+        },
+        "map": {
+          "MAP@10": 1.0,
+          "MAP@100": 1.0
+        },
+        "recall": {
+          "Recall@10": 1.0,
+          "Recall@100": 1.0
+        },
+        "precision": {
+          "P@10": 0.2,
+          "P@100": 0.02
+        }
+      },
+      "rejected_exponential_gain_alternative": 0.7098097413968655
+    }
+  ],
+  "query_coverage_failure_demonstration": {
+    "external_guard_required": true,
+    "required_guard": "Assert exact qrels/results query-ID coverage and nonempty retrievals before official evaluation.",
+    "incomplete_run": {
+      "name": "missing_query_is_not_automatically_scored_as_zero",
+      "passed": true,
+      "explanation": "This deliberately incomplete synthetic run demonstrates the need for the runner's coverage guard.",
+      "qrels": {
+        "q-present": {
+          "relevant-a": 1
+        },
+        "q-omitted": {
+          "relevant-b": 1
+        }
+      },
+      "results": {
+        "q-present": {
+          "relevant-a": 1.0
+        }
+      },
+      "expected_exact": {
+        "NDCG@10": 1.0,
+        "Recall@100": 1.0
+      },
+      "expected_beir_rounded_5dp": {
+        "NDCG@10": 1.0,
+        "Recall@100": 1.0
+      },
+      "observed": {
+        "NDCG@10": 1.0,
+        "Recall@100": 1.0
+      },
+      "official_all_metrics": {
+        "ndcg": {
+          "NDCG@10": 1.0,
+          "NDCG@100": 1.0
+        },
+        "map": {
+          "MAP@10": 1.0,
+          "MAP@100": 1.0
+        },
+        "recall": {
+          "Recall@10": 1.0,
+          "Recall@100": 1.0
+        },
+        "precision": {
+          "P@10": 0.1,
+          "P@100": 0.01
+        }
+      }
+    },
+    "complete_miss_run": {
+      "name": "missing_query_represented_as_a_complete_miss",
+      "passed": true,
+      "explanation": "When both query IDs are supplied, the missing relevant document contributes zero.",
+      "qrels": {
+        "q-present": {
+          "relevant-a": 1
+        },
+        "q-omitted": {
+          "relevant-b": 1
+        }
+      },
+      "results": {
+        "q-present": {
+          "relevant-a": 1.0
+        },
+        "q-omitted": {
+          "unjudged": 1.0
+        }
+      },
+      "expected_exact": {
+        "NDCG@10": 0.5,
+        "Recall@100": 0.5
+      },
+      "expected_beir_rounded_5dp": {
+        "NDCG@10": 0.5,
+        "Recall@100": 0.5
+      },
+      "observed": {
+        "NDCG@10": 0.5,
+        "Recall@100": 0.5
+      },
+      "official_all_metrics": {
+        "ndcg": {
+          "NDCG@10": 0.5,
+          "NDCG@100": 0.5
+        },
+        "map": {
+          "MAP@10": 0.5,
+          "MAP@100": 0.5
+        },
+        "recall": {
+          "Recall@10": 0.5,
+          "Recall@100": 0.5
+        },
+        "precision": {
+          "P@10": 0.05,
+          "P@100": 0.005
+        }
+      }
+    }
+  }
+}

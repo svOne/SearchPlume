@@ -1,0 +1,29 @@
+# SearchPlume official-source verification
+
+Verified on 2026-10-09. This verification used public documentation, source code, and small repository metadata/configuration requests. It did not open SciFact test judgment files, install packages, download weights, create accounts, or change the retrieval protocol. The release preserves the original settings and measurements; documentation verification is not a claim of training-data independence.
+
+## Dataset and attribution
+
+- The [official BEIR dataset wiki](https://github.com/beir-cellar/beir/wiki/Datasets-available) lists SciFact as `scifact`, with train/test splits, **300 test retrieval queries**, a rounded 5K corpus, and published archive MD5 **`5f7d1de60b170fc8027bb7898e2efca1`**. Its downloader points to `https://public.ukp.informatik.tu-darmstadt.de/thakur/BEIR/datasets/scifact.zip`. This is the publisher's checksum, not a measurement of a locally downloaded file. Verify downloaded bytes and actual counts separately.
+- The original [SciFact paper, §3](https://arxiv.org/html/2004.14974) gives the exact corpus count: **5,183 abstracts**. It describes scientific claims derived from citation sentences and a biomedical scientific-literature corpus. The experiment measures document retrieval; it does not verify whether a claim is scientifically true.
+- The [original SciFact license](https://github.com/allenai/scifact/blob/68b98a56d93e0f9da0d2aab4e6c3294699a0f72e/LICENSE.md) assigns **CC BY 4.0** to claims/evidence annotations, **ODC-By 1.0** to abstracts, and **Apache 2.0** to repository code. Attribute SciFact to David Wadden, Shanchuan Lin, Kyle Lo, Lucy Lu Wang, Madeleine van Zuylen, Arman Cohan, and Hannaneh Hajishirzi, *Fact or Fiction: Verifying Scientific Claims*, EMNLP 2020. Abstracts derive from AllenAI's S2ORC; retain that attribution too. Provide the official downloader rather than distributing corpus text.
+- The [original repository README](https://github.com/allenai/scifact/blob/68b98a56d93e0f9da0d2aab4e6c3294699a0f72e/README.md) describes its original test claims as unlabeled. Name this evaluation **BEIR/SciFact retrieval test** and do not equate it to the original blind claim-verification test or leaderboard task.
+
+## Model
+
+The [official model card](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2) describes a sentence/short-paragraph encoder with **384-dimensional** vectors and default **256-wordpiece truncation**, licensed Apache 2.0. Its training data include S2ORC scientific abstracts. Because SciFact also derives from S2ORC, these sources do not establish training-data independence; no tuning in this experiment is a narrower claim.
+
+The public [Hugging Face model API](https://huggingface.co/api/models/sentence-transformers/all-MiniLM-L6-v2) resolved the exact revision to **`1110a243fdf4706b3f48f1d95db1a4f5529b4d41`**, modified 2026-06-01, public and non-gated. At that immutable revision:
+
+- [SentenceTransformer configuration](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/blob/1110a243fdf4706b3f48f1d95db1a4f5529b4d41/sentence_bert_config.json): `max_seq_length=256`.
+- [Pooling configuration](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/blob/1110a243fdf4706b3f48f1d95db1a4f5529b4d41/1_Pooling/config.json): mean pooling, dimension 384. [Modules](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/blob/1110a243fdf4706b3f48f1d95db1a4f5529b4d41/modules.json) include normalization.
+- [Tokenizer configuration](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/blob/1110a243fdf4706b3f48f1d95db1a4f5529b4d41/tokenizer_config.json): uncased BERT tokenizer, tokenizer maximum 512. The SentenceTransformer's 256 cap governs this benchmark.
+- [Repository tree metadata](https://huggingface.co/api/models/sentence-transformers/all-MiniLM-L6-v2/tree/1110a243fdf4706b3f48f1d95db1a4f5529b4d41?recursive=true&expand=false): `model.safetensors` is **90,868,376 bytes**, LFS SHA256 **`53aa51172d142c89d9012cce15ae4d6cc0ca6895895114379cacb4fab128d9db`**. API parameter total: 22,713,728. Weight size alone does not measure runtime memory.
+
+## BM25S
+
+The [official README](https://github.com/xhluca/bm25s) documents default Lucene BM25. [Constructor source](https://github.com/xhluca/bm25s/blob/03eac5a8fb3aa4958ce37415a4cf2220d35157f7/bm25s/__init__.py#L133) confirms `k1=1.5`, `b=0.75`, `method="lucene"`, `idf_method=None` (thus Lucene), float32 scores, int32 indices, and NumPy retrieval/index-construction backends. [Tokenizer source](https://github.com/xhluca/bm25s/blob/03eac5a8fb3aa4958ce37415a4cf2220d35157f7/bm25s/tokenization.py#L525) defaults to lowercasing, regex `(?u)\b\w\w+\b`, English stopword removal, and no stemmer. These observations describe that source revision; verify the exact installed release and explicitly record every chosen setting. No test-dependent setting is recommended here.
+
+## Official evaluator
+
+[BEIR's evaluator source](https://github.com/beir-cellar/beir/blob/ef83d29307061c65d04b035b4f4e7c18bd8374af/beir/retrieval/evaluation.py#L63) calls `pytrec_eval.RelevanceEvaluator` with `ndcg_cut` and `recall` (and MAP/precision), sums per-query results, divides by `len(scores)`, and returns five-decimal rounded aggregate metrics. The results dict is modified when `ignore_identical_ids=True`, the default: query/document pairs with equal IDs are removed. Freeze this argument explicitly and evaluate a copy if preserving raw rankings. Assert that all intended judged query IDs receive a ranking and an evaluated score; the denominator is returned query scores, not an independently asserted 300. Validate perfect, missed, and rank-discounted synthetic controls before test evaluation. A source URL alone does not prove a runner uses that evaluator: record the installed version and source hash.

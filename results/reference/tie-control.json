@@ -1,0 +1,26 @@
+{
+  "synthetic": true,
+  "judgments_read": false,
+  "input_sorted_ids": [
+    "1",
+    "10",
+    "2"
+  ],
+  "input_scores": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "worker_order": [
+    "2",
+    "10",
+    "1"
+  ],
+  "official_trec_metrics": {
+    "synthetic": {
+      "recall_1": 1.0,
+      "ndcg_cut_1": 1.0
+    }
+  },
+  "passed": true
+}
